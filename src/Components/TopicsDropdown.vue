@@ -3,9 +3,9 @@
     <VueMultiselect v-model="selected"
                     :options="GetUniqueTopics"
                     :multiple="true"
-                    :group-select="true"
+                    :searchable="false"
                     placeholder="Type to search"
-                    @select="dispatchAction"
+                    @update:model-value="updateValueAction"
     >
     </VueMultiselect>
   </div>
@@ -13,33 +13,32 @@
 
 <script>
 import VueMultiselect from 'vue-multiselect'
+import {GET_FILTERS, GET_PROJECTS, SET_FILTERS} from "@/store/Modules/Project/types";
+import {mapGetters, mapMutations} from "vuex";
 export default {
   name: "TopicsDropdown",
   components: { VueMultiselect  },
-  props: {
-        RawData:
-            {
-              default: () => [],
-              type: Array
-            },
-  },
   data () {
     return {
       selected: [],
     }},
   computed:
       {
+        ...mapGetters('project',{
+          // map `this.doneCount` to `this.$store.getters.doneTodosCount`
+          projects: GET_PROJECTS,
+        }),
         //TODO: may be able to simplify the code down here slightly
         GetUniqueTopics()
         {
           const distinct = [];
-          for (let i = 0; i < this.RawData.length; i++)
+          for (let i = 0; i < this.projects.length; i++)
           {
-            for(let x =0; x < this.RawData[i].topics.length; x++)
+            for(let x =0; x < this.projects[i].topics.length; x++)
             {
-              if(!distinct.includes(this.RawData[i].topics[x]))
+              if(!distinct.includes(this.projects[i].topics[x]))
               {
-                distinct.push(this.RawData[i].topics[x])
+                distinct.push(this.projects[i].topics[x])
               }
             }
           }
@@ -50,10 +49,13 @@ export default {
       },
   methods:
       {
-        dispatchAction(actionName)
+        ...mapMutations('project',{
+          SetFilters: SET_FILTERS // map `this.add()` to `this.$store.commit('increment')`
+        }),
+        updateValueAction(selectedOption)
         {
-          this.$emit('DropDownChanged', this.selected)
-        }
+          this.SetFilters(this.selected)
+        },
       }
 }
 </script>

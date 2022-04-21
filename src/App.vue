@@ -4,28 +4,12 @@
 
 <script>
 import HomePage from './pages/HomePage.vue'
-import github from "@/Service/Github";
 
 export default {
   name: 'App',
   components: {
      HomePage
   },
-  data(){
-    return{
-      projects:[],
-    }
-  },
-  mounted()
-  {
-    this.GetProjects();
-  },
-  methods:{
-    async GetProjects()
-    {
-      this.projects = await github.GetUserProjects();
-    }
-  }
 }
 </script>
 

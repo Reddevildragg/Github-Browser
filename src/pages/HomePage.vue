@@ -1,14 +1,16 @@
 <template>
   <div class="hello">
-
-    <topics-dropdown @DropDownChanged="DropDownChanged"></topics-dropdown>
+    <topics-dropdown></topics-dropdown>
     <ProjectLayout></ProjectLayout>
   </div>
 </template>
 
+
 <script>
 import TopicsDropdown from "@/Components/TopicsDropdown";
 import ProjectLayout from "@/Components/ProjectLayout";
+import { mapActions } from 'vuex'
+import {FETCH_PROJECTS} from "@/store/Modules/Project/types";
 
 export default {
   name: 'HomePage',
@@ -18,9 +20,15 @@ export default {
       filter: [],
     }
   },
-  methods: {
-    DropDownChanged()
-    { }
+  methods:
+      {
+        ...mapActions('project',{
+          fetchProjects: FETCH_PROJECTS // map `this.add()` to `this.$store.dispatch('increment')`
+        })
+  },
+  mounted()
+  {
+    this.fetchProjects();
   }
 }
 </script>

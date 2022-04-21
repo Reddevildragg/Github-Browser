@@ -1,4 +1,5 @@
 <template>
+  <div>{{filters}}</div>
   <transition-group tag="repoBoxes">
     <article v-for="(item, index) in projects" :key="index" class="card">
       <project-box :index="index" :project="item" :filter="filter"></project-box>
@@ -7,30 +8,22 @@
 </template>
 
 <script>
-import github from "@/Service/Github";
 import ProjectBox from "@/Components/ProjectBox";
+import { mapGetters } from 'vuex'
+import {GET_FILTERS, GET_PROJECTS} from "@/store/Modules/Project/types";
 
 export default {
   name: "ProjectLayout",
   components: {ProjectBox},
-  props:{
-    filter: [],
-  },
-  data(){
-    return{
-      projects:[],
-    }
-  },
-  mounted()
-  {
-    this.GetProjects();
-  },
-  methods:{
-    async GetProjects()
-    {
-      this.projects = await github.GetUserProjects();
-    }
-  }
+  computed:
+      {
+        ...mapGetters('project',{
+          // map `this.doneCount` to `this.$store.getters.doneTodosCount`
+          projects: GET_PROJECTS,
+          filters: GET_FILTERS
+        }),
+
+      }
 }
 </script>
 

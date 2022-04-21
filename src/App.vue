@@ -1,15 +1,30 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <HomePage/>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import HomePage from './pages/HomePage.vue'
+import github from "@/Service/Github";
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+     HomePage
+  },
+  data(){
+    return{
+      projects:[],
+    }
+  },
+  mounted()
+  {
+    this.GetProjects();
+  },
+  methods:{
+    async GetProjects()
+    {
+      this.projects = await github.GetUserProjects();
+    }
   }
 }
 </script>

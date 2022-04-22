@@ -39,8 +39,12 @@ export default {
     project: {
       // Run as soon as the component loads
       immediate: true,
-      async handler() {
-        this.ProjectCustom = await github.GetCustomProjectData(this.project);
+      async handler(newValue, oldValue)
+      {
+        console.log(oldValue, newValue);
+        if(oldValue ==null) {
+          this.ProjectCustom = await github.GetCustomProjectData(this.project);
+        }
       }
     },
   },
@@ -61,9 +65,9 @@ export default {
   },
   GetImage()
   {
-    if(this.ProjectCustom && this.ProjectCustom.image_url)
+    if(this.ProjectCustom && this.ProjectCustom.image_url && this.ProjectCustom.image_url.length > 0)
     {
-      return this.ProjectCustom.image_url
+      return this.ProjectCustom.image_url[0];
     }
     else if(this.project.owner && this.project.owner.avatar_url)
     {

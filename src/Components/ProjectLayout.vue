@@ -27,17 +27,76 @@ export default {
         }),
         ActiveProjects()
         {
-          let vm = this;
-          if(this.filters.length > 0) {
-            return this.projects.filter(x => {
-              return _.intersection(x.topics, vm.filters).length > 0
-            })
+          console.log(this.filters);
+          let projects = this.projects;
+          if(this.filters.length > 0)
+          {
+            projects = this.FilterByTopic(projects);
+            projects = this.FilterByOwner(projects);
+            return projects;
           }
           else {
             return this.projects
           }
         }
       },
+  methods:
+  {
+    validateFilterCategory(category)
+    {
+      let filter = false;
+      for(let i = 0; i < this.filters.length; i++)
+      {
+        if(this.filters[i].category === category)
+        {
+          filter = true;
+          break;
+        }
+      }
+      return filter;
+    },
+    FilterByTopic(projects)
+    {
+      let vm = this;
+
+      if(!this.validateFilterCategory("Topic"))
+      {
+        return projects;
+      }
+
+      return projects.filter(x =>
+      {
+        for(let i = 0; i < vm.filters.length; i++)
+        {
+          if(vm.filters[i].category === "Topic")
+          {
+            return _.contains(x.topics, vm.filters[i].name)
+          }
+        }
+      })
+    },
+    FilterByOwner(projects)
+    {
+      let vm = this;
+
+      if(!this.validateFilterCategory("Owner"))
+      {
+        return projects;
+      }
+
+      return projects.filter(x =>
+      {
+        for(let i = 0; i < vm.filters.length; i++)
+        {
+          if(vm.filters[i].category === "Owner")
+          {
+            console.log(x.owner.login);
+            return x.owner.login === vm.filters[i].name;
+          }
+        }
+      })
+    }
+  }
 }
 </script>
 

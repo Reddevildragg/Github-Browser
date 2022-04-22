@@ -1,9 +1,7 @@
 <template>
-  <div>{{filters}}</div>
-  <transition-group tag="repoBoxes">
-    <article v-for="(item, index) in projects" :key="index" class="card">
-      <project-box :index="index" :project="item" :filter="filter"></project-box>
-    </article>
+  <transition-group tag="repoBoxes" name="cards">
+    <project-box v-for="(item, index) in ActiveProjects" :key="index" :index="index" :project="item">
+    </project-box>
   </transition-group>
 </template>
 
@@ -11,31 +9,40 @@
 import ProjectBox from "@/Components/ProjectBox";
 import { mapGetters } from 'vuex'
 import {GET_FILTERS, GET_PROJECTS} from "@/store/Modules/Project/types";
+import {_} from "vue-underscore";
 
 export default {
   name: "ProjectLayout",
   components: {ProjectBox},
+  data(){
+    return{
+      currentProjects: []
+    }
+  },
   computed:
       {
         ...mapGetters('project',{
-          // map `this.doneCount` to `this.$store.getters.doneTodosCount`
           projects: GET_PROJECTS,
           filters: GET_FILTERS
         }),
-
-      }
+        ActiveProjects()
+        {
+          let vm = this;
+          if(this.filters.length > 0) {
+            return this.projects.filter(x => {
+              return _.intersection(x.topics, vm.filters).length > 0
+            })
+          }
+          else {
+            return this.projects
+          }
+        }
+      },
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
-
-$card: #2B2A34;
-
-a {
-  color: #42b983;
-}
-
 repoBoxes
 {
   display: grid;
@@ -43,37 +50,23 @@ repoBoxes
   grid-gap: 30px;
   counter-reset: rank;
   margin: 4%;
-
-  article {
-    counter-increment: rank;
-    position: relative;
-    background: $card;
-    box-shadow: 0 1px 5px rgba(0,0,0,0.2);
-    border-radius: 4px;
-    overflow: hidden;
-    animation: mouseOut 0.3s ease-in;
-  }
-  article:hover {
-    animation: mouseOver 0.3s ease-in forwards;
-  }
-
-  // ANIMATIONS
-  @keyframes mouseOver {
-    0% {
-      top: 0;
-    }
-    100% {
-      top: -5px;
-    }
-  }
-
-  @keyframes mouseOut {
-    0% {
-      top: -5px;
-    }
-    100% {
-      top: 0;
-    }
-  }
 }
+
+.cards-move,
+.cards-enter-active,
+.cards-leave-active {
+  transition: all .5s ease;
+}
+.cards-enter-from,
+.cards-leave-to {
+  opacity: 0;
+  transform: scaleY(0.01);
+}
+
+/* ensure leaving items are taken out of layout flow so that moving
+   animations can be calculated correctly. */
+.cards-leave-active {
+  position: absolute!important;
+}
+
 </style>

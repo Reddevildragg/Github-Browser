@@ -23,7 +23,7 @@ export default {
   methods:
       {
         ...mapActions('project',{
-          fetchProjects: FETCH_PROJECTS // map `this.add()` to `this.$store.dispatch('increment')`
+          fetchProjects: FETCH_PROJECTS
         })
   },
   mounted()

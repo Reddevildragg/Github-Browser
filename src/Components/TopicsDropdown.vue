@@ -25,7 +25,6 @@ export default {
   computed:
       {
         ...mapGetters('project',{
-          // map `this.doneCount` to `this.$store.getters.doneTodosCount`
           projects: GET_PROJECTS,
         }),
         //TODO: may be able to simplify the code down here slightly
@@ -50,7 +49,7 @@ export default {
   methods:
       {
         ...mapMutations('project',{
-          SetFilters: SET_FILTERS // map `this.add()` to `this.$store.commit('increment')`
+          SetFilters: SET_FILTERS
         }),
         updateValueAction(selectedOption)
         {

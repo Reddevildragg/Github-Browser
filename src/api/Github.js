@@ -2,13 +2,32 @@ import axios from 'axios'
 
 export default class github
 {
-    static GetUserProjects()
+    static GetUserProjects(username)
     {
-        // create a promise for the axios request
-        const promise = axios.get('https://api.github.com/orgs/greener-games/repos')
+        return axios.get( `https://api.github.com/users/${username}/repos`).then((response) => response.data)
+    }
 
-        // using .then, create a new promise which extracts the data
-        // return it
-        return promise.then((response) => response.data)
+    static GetOrgProjects(org)
+    {
+        return axios.get(`https://api.github.com/orgs/${org}}/repos`).then((response) => response.data)
+    }
+
+    static GetCustomProjectData(project)
+    {
+            let url = project.html_url;
+            url = url.substring("https://github.com/".length);
+            url = `https://raw.githubusercontent.com/${url}/${project.default_branch}/.viewer/data.json`;
+
+            return axios.get(url).then((response) =>
+            {
+                if(response.data)
+                {
+                    return response.data
+                }
+                return [];
+            }).catch(function (error)
+            {
+                return []
+            });
     }
 }

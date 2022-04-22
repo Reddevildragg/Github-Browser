@@ -60,13 +60,12 @@ repoBoxes
 .cards-enter-from,
 .cards-leave-to {
   opacity: 0;
-  transform: scaleY(0.01);
 }
 
 /* ensure leaving items are taken out of layout flow so that moving
    animations can be calculated correctly. */
 .cards-leave-active {
-  position: absolute!important;
+  //position: absolute!important;
 }
 
 </style>

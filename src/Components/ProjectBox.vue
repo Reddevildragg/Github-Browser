@@ -2,7 +2,7 @@
   <div class="card">
   <a :href="project.html_url" target="_blank">
     <div class="image">
-      <img :src="GetImage()" :alt="project.name" v-on:load="isLoaded()" v-bind:class="{ active: isActive }">
+     <img :src="GetImage()" :alt="project.name" v-on:load="isLoaded()" v-bind:class="{ active: isActive }">
     </div>
     <div class="projectInformation">
       <div class="coreInformation">
@@ -32,7 +32,10 @@ export default {
   data(){
     return{
       isActive:false,
-      ProjectCustom: null
+      ProjectCustom: null,
+      playing: false,
+      currentIndex: 0,
+      timer: null,
     }
   },
   watch: {
@@ -42,32 +45,42 @@ export default {
       async handler(newValue, oldValue)
       {
         console.log(oldValue, newValue);
-        if(oldValue ==null) {
+        if(oldValue ==null)
+        {
           this.ProjectCustom = await github.GetCustomProjectData(this.project);
+
+          if(this.ProjectCustom && this.ProjectCustom.image_url && this.ProjectCustom.image_url.length > 0)
+          {
+            this.setAutoRoll();
+          }
         }
       }
     },
   },
   mounted()
-  {
-    let div = document.querySelector('div')
-    document.addEventListener('DOMContentLoaded', () => {
-      // Adding timeout to simulate the loading of the page
-      setTimeout(() => {
-        div.classList.remove('prevent-animation')
-      }, 2000)
-    })
-    },
+  {    },
   methods:{
   isLoaded()
   {
     this.isActive = true;
   },
+    setAutoRoll() {
+      let vueSelf = this;
+      this.timer = setInterval(function() {
+        vueSelf.addIndex();
+      }, 10000);
+    },
+    addIndex()
+    {
+      let newIndex = this.currentIndex + 1;
+      this.currentIndex = newIndex === this.ProjectCustom.image_url.length ? 0 : newIndex;
+      this.isActive = false;
+    },
   GetImage()
   {
     if(this.ProjectCustom && this.ProjectCustom.image_url && this.ProjectCustom.image_url.length > 0)
     {
-      return this.ProjectCustom.image_url[0];
+      return this.ProjectCustom.image_url[this.currentIndex];
     }
     else if(this.project.owner && this.project.owner.avatar_url)
     {
@@ -197,7 +210,8 @@ export default {
 
   }
 }
-.card:hover {
+.card:hover
+{
   top: -5px;
   .projectInformation
   {

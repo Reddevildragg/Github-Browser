@@ -44,7 +44,17 @@ export default {
       }
     },
   },
-methods:{
+  mounted()
+  {
+    let div = document.querySelector('div')
+    document.addEventListener('DOMContentLoaded', () => {
+      // Adding timeout to simulate the loading of the page
+      setTimeout(() => {
+        div.classList.remove('prevent-animation')
+      }, 2000)
+    })
+    },
+  methods:{
   isLoaded()
   {
     this.isActive = true;
@@ -70,7 +80,7 @@ methods:{
     {
       return this.ProjectCustom.description
     }
-    else if(this.project.description && this.project.description != null)
+    else if(this.project.description)
     {
       return this.project.description;
     }
@@ -95,8 +105,10 @@ methods:{
   box-shadow: 0 1px 5px rgba(0,0,0,0.2);
   border-radius: 4px;
   overflow: hidden;
-  animation: mouseOut 0.3s ease-in;
   padding-bottom: var(--hex-parent-height);
+
+  transition: top 0.3s;
+
   .image {
     position: relative;
     width: 100%;
@@ -125,9 +137,22 @@ methods:{
       width: 100%;
       z-index: 10;
       opacity: 0;
-      &.active {
+      &.active
+      {
         animation: imageFadeIn 0.5s ease-in forwards;
         animation-delay: 0.5s;
+
+        @keyframes imageFadeIn {
+          0% {
+            opacity: 0;
+          }
+          50% {
+            opacity: 0.1;
+          }
+          100% {
+            opacity: 1;
+          }
+        }
       }
     }
   }
@@ -139,12 +164,12 @@ methods:{
     width: 100%;
     background: $card;
     z-index: 10;
-    animation: ProjectInformationHoverOut 0.3s ease-in;
+    display: flex;
+    flex-direction: column;
 
     top: calc(100% - var(--hex-parent-height));
 
-    display: flex;
-    flex-direction: column;
+    transition: top 0.3s;
 
     .coreInformation
     {
@@ -166,61 +191,14 @@ methods:{
       }
     }
 
-    @keyframes ProjectInformationHoverOut {
-      0% {
-        top: 0%;
-      }
-      100% {
-        top: calc(100% - var(--hex-parent-height));
-      }
-    }
   }
 }
 .card:hover {
-  animation: mouseOver 0.3s ease-in forwards;
-
+  top: -5px;
   .projectInformation
   {
-    animation: ProjectInformationHoverOn 0.3s ease-in forwards;
-    @keyframes ProjectInformationHoverOn {
-      0% {
-        top: calc(100% - var(--hex-parent-height));
-      }
-      100% {
-        top: 0%;
-      }
-    }
+    top:0;
   }
 }
 
-// ANIMATIONS
-@keyframes mouseOver {
-  0% {
-    top: 0;
-  }
-  100% {
-    top: -5px;
-  }
-}
-
-@keyframes mouseOut {
-  0% {
-    top: -5px;
-  }
-  100% {
-    top: 0;
-  }
-}
-
-@keyframes imageFadeIn {
-  0% {
-    opacity: 0;
-  }
-  50% {
-    opacity: 0.1;
-  }
-  100% {
-    opacity: 1;
-  }
-}
 </style>

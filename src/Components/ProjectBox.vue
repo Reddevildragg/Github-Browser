@@ -6,8 +6,8 @@
     </div>
     <div class="projectInformation">
       <div class="coreInformation">
-        <h3 class="title">{{ project.name }}</h3>
-        <p class="artist">{{ project.name }}</p>
+        <h3>{{ project.name }}</h3>
+        <p>{{ project.owner.login }}</p>
       </div>
       <div class="description">
         <h3>{{ GetDescription() }}</h3>
@@ -159,8 +159,8 @@ methods:{
 
       h3
       {
+        padding: 15px;
         color: $card;
-        width: 100%;
         height: 100%;
         word-wrap: break-word;
       }

@@ -4,19 +4,22 @@ import github from "@/api/Github";
 
 export default
 {
-    async [FETCH_PROJECTS](context) {
+    async [FETCH_PROJECTS](context, repos) {
         try
         {
             let data = [];
-            console.log(this)
-            for(let i = 0; i < this.$UserRepos.length; i++)
+            const users = repos["users"];
+            const org = repos["org"];
+            for(let i = 0; i < users.length; i++)
             {
-                let response = await github.GetUserProjects(this.$UserRepos[i]);
+                console.log("fetching data for ", users[i])
+                let response = await github.GetUserProjects(users[i]);
                 data = data.concat(response);
             }
-            for(let i = 0; i < this.$OrgRepos.length; i++)
+            for(let i = 0; i < org.length; i++)
             {
-                let response = await github.GetUserProjects(this.$OrgRepos[i]);
+                console.log("fetching data for ", org[i])
+                let response = await github.GetUserProjects(org[i]);
                 data = data.concat(response);
             }
 

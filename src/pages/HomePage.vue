@@ -28,7 +28,7 @@ export default {
   },
   mounted()
   {
-    this.fetchProjects();
+    this.fetchProjects({"users":this.$UserRepos, "org":this.$OrgRepos});
   }
 }
 </script>

@@ -10,15 +10,20 @@ export default
             let data = [];
             for(let i = 0; i < Config.userRepos.length; i++)
             {
-                console.log("fetching data for ", Config.userRepos[i])
+                //console.log("fetching data for ", Config.userRepos[i])
                 let response = await github.GetUserProjects(Config.userRepos[i]);
                 data = data.concat(response);
             }
             for(let i = 0; i < Config.orgRepos.length; i++)
             {
-                console.log("fetching data for ", Config.orgRepos[i])
+                //console.log("fetching data for ", Config.orgRepos[i])
                 let response = await github.GetOrgProjects(Config.orgRepos[i]);
                 data = data.concat(response);
+            }
+
+            for(let i = 0; i < data.length; i++)
+            {
+                data[i].CustomData = await github.GetCustomProjectData(data[i]);
             }
 
             context.commit(SET_PROJECTS, data)

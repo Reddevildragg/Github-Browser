@@ -30,20 +30,7 @@ export default {
   data(){
     return{
       isActive:false,
-      ProjectCustomInformation: null
     }
-  },
-  watch: {
-    project: {
-      // Run as soon as the component loads
-      immediate: true,
-      async handler(newValue, oldValue)
-      {
-        if(oldValue ==null) {
-          this.ProjectCustomInformation = await github.GetCustomProjectData(this.project);
-        }
-      }
-    },
   },
   mounted()
   {
@@ -63,9 +50,9 @@ export default {
   },
   GetImage()
   {
-    if(this.ProjectCustomInformation && this.ProjectCustomInformation.image_url && this.ProjectCustomInformation.image_url.length > 0)
+    if(this.project.CustomData && this.project.CustomData.image_url && this.project.CustomData.image_url.length > 0)
     {
-      return this.ProjectCustomInformation.image_url[0];
+      return this.project.CustomData.image_url[0];
     }
     else if(this.project.owner && this.project.owner.avatar_url)
     {
@@ -78,9 +65,9 @@ export default {
   },
   GetDescription()
   {
-    if(this.ProjectCustomInformation && this.ProjectCustomInformation.description)
+    if(this.project.CustomData && this.project.CustomData.description)
     {
-      return this.ProjectCustomInformation.description
+      return this.project.CustomData.description
     }
     else if(this.project.description)
     {

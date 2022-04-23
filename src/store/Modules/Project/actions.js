@@ -1,6 +1,6 @@
 import {FETCH_PROJECTS, SET_PROJECTS} from "@/store/Modules/Project/types";
-
-import github from "@/api/Github";
+import github from "@/Scripts/api/Github";
+import Config from "@/Config";
 
 export default
 {
@@ -8,18 +8,16 @@ export default
         try
         {
             let data = [];
-            const users = repos["users"];
-            const org = repos["org"];
-            for(let i = 0; i < users.length; i++)
+            for(let i = 0; i < Config.userRepos.length; i++)
             {
-                console.log("fetching data for ", users[i])
-                let response = await github.GetUserProjects(users[i]);
+                console.log("fetching data for ", Config.userRepos[i])
+                let response = await github.GetUserProjects(Config.userRepos[i]);
                 data = data.concat(response);
             }
-            for(let i = 0; i < org.length; i++)
+            for(let i = 0; i < Config.orgRepos.length; i++)
             {
-                console.log("fetching data for ", org[i])
-                let response = await github.GetUserProjects(org[i]);
+                console.log("fetching data for ", Config.orgRepos[i])
+                let response = await github.GetOrgProjects(Config.orgRepos[i]);
                 data = data.concat(response);
             }
 

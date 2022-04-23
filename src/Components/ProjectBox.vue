@@ -19,20 +19,18 @@
 
 <script>
 
-import axios from "axios";
-import github from "@/api/Github";
+import github from "@/Scripts/api/Github";
 
 export default {
   name: "ProjectBox",
   props: {
     index: Number,
     project: Object,
-    name123: String
   },
   data(){
     return{
       isActive:false,
-      ProjectCustom: null
+      ProjectCustomInformation: null
     }
   },
   watch: {
@@ -41,9 +39,8 @@ export default {
       immediate: true,
       async handler(newValue, oldValue)
       {
-        console.log(oldValue, newValue);
         if(oldValue ==null) {
-          this.ProjectCustom = await github.GetCustomProjectData(this.project);
+          this.ProjectCustomInformation = await github.GetCustomProjectData(this.project);
         }
       }
     },
@@ -59,15 +56,16 @@ export default {
     })
     },
   methods:{
+    defaultImageUrl: "https://source.unsplash.com/random/300x300",
   isLoaded()
   {
     this.isActive = true;
   },
   GetImage()
   {
-    if(this.ProjectCustom && this.ProjectCustom.image_url && this.ProjectCustom.image_url.length > 0)
+    if(this.ProjectCustomInformation && this.ProjectCustomInformation.image_url && this.ProjectCustomInformation.image_url.length > 0)
     {
-      return this.ProjectCustom.image_url[0];
+      return this.ProjectCustomInformation.image_url[0];
     }
     else if(this.project.owner && this.project.owner.avatar_url)
     {
@@ -75,22 +73,18 @@ export default {
     }
     else
     {
-      return "https://source.unsplash.com/random/300x300"
+      return this.defaultImageUrl;
     }
   },
   GetDescription()
   {
-    if(this.ProjectCustom && this.ProjectCustom.description)
+    if(this.ProjectCustomInformation && this.ProjectCustomInformation.description)
     {
-      return this.ProjectCustom.description
+      return this.ProjectCustomInformation.description
     }
     else if(this.project.description)
     {
       return this.project.description;
-    }
-    else
-    {
-      return "https://source.unsplash.com/random/300x300"
     }
   }
 }
@@ -101,7 +95,7 @@ export default {
 @import "../styles/style";
 
 .card {
-  --hex-parent-height: 10vh;
+  --hex-parent-height: 14vh;
 
   counter-increment: rank;
   position: relative;

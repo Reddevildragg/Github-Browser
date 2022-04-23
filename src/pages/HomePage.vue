@@ -10,25 +10,20 @@
 import TopicsDropdown from "@/Components/TopicsDropdown";
 import ProjectLayout from "@/Components/ProjectLayout";
 import { mapActions } from 'vuex'
-import {FETCH_PROJECTS} from "@/store/Modules/Project/types";
+import {PROJECTS,FETCH_PROJECTS} from "@/store/Modules/Project/types";
 
 export default {
   name: 'HomePage',
   components: {ProjectLayout, TopicsDropdown},
-  data(){
-    return{
-      filter: [],
-    }
-  },
   methods:
       {
-        ...mapActions('project',{
-          fetchProjects: FETCH_PROJECTS
+        ...mapActions(PROJECTS,{
+          FetchProjects: FETCH_PROJECTS
         })
   },
   mounted()
   {
-    this.fetchProjects({"users":this.$UserRepos, "org":this.$OrgRepos});
+    this.FetchProjects();
   }
 }
 </script>

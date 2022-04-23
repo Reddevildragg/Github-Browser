@@ -9,7 +9,7 @@ export default class github
 
     static GetOrgProjects(org)
     {
-        return axios.get(`https://api.github.com/orgs/${org}}/repos`).then((response) => response.data)
+        return axios.get(`https://api.github.com/orgs/${org}/repos`).then((response) => response.data)
     }
 
     static GetCustomProjectData(project)

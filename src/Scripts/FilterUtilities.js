@@ -17,10 +17,12 @@ export default class FilterUtilities
         let projects = this.#GetProjects();
         this.filters = store.getters[`${FILTERS}/${GET_FILTERS}`];
 
+        console.log("Filters", this.filters);
         if(this.filters.length > 0)
         {
             projects = this.FilterByTopic(projects);
             projects = this.FilterByOwner(projects);
+            console.log("activeProjects", projects)
             return projects;
         }
         else {

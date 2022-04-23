@@ -20,7 +20,8 @@
 
 <script>
 import VueMultiselect from 'vue-multiselect'
-import {PROJECTS, GET_PROJECTS, SET_FILTERS} from "@/store/Modules/Project/types";
+import {FILTERS, SET_FILTERS} from "@/store/Modules/Filters/types";
+
 import { mapMutations} from "vuex";
 import FilterUtilities from "@/Scripts/FilterUtilities";
 
@@ -40,11 +41,12 @@ export default {
       },
   methods:
       {
-        ...mapMutations(PROJECTS,{
+        ...mapMutations(FILTERS,{
           SetFilters: SET_FILTERS
         }),
         updateValueAction()
         {
+          console.log()
           this.SetFilters(this.selected)
         }
       }

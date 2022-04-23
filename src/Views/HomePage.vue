@@ -1,8 +1,6 @@
 <template>
-  <div class="hello">
     <topics-dropdown></topics-dropdown>
     <ProjectLayout></ProjectLayout>
-  </div>
 </template>
 
 

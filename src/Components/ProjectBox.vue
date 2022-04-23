@@ -19,8 +19,6 @@
 
 <script>
 
-import github from "@/Scripts/api/Github";
-
 export default {
   name: "ProjectBox",
   props: {

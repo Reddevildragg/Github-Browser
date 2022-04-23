@@ -8,8 +8,6 @@
 <script>
 import ProjectBox from "@/Components/ProjectBox";
 import FilterUtilities from "@/Scripts/FilterUtilities";
-import {PROJECTS,GET_PROJECTS} from "@/store/Modules/Project/types";
-import { mapGetters } from 'vuex'
 
 export default {
   name: "ProjectLayout",
@@ -20,9 +18,6 @@ export default {
   },
   computed:
       {
-        ...mapGetters(PROJECTS,{
-          projects: GET_PROJECTS,
-        }),
         ActiveProjects()
         {
           return FilterUtilities.GetActiveProjects();

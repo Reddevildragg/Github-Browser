@@ -41,13 +41,9 @@ export default {
       },
   methods:
       {
-        ...mapMutations(FILTERS,{
-          SetFilters: SET_FILTERS
-        }),
         updateValueAction()
         {
-          console.log()
-          this.SetFilters(this.selected)
+          //this.SetFilters(this.selected)
         }
       }
 }

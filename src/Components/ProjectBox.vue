@@ -164,13 +164,16 @@ export default {
     {
       background-color: #42b983;
       flex-grow: 1;
+      overflow:hidden;
 
       h3
       {
-        padding: 15px;
+        margin: 0;
+        padding: 5px;
         color: $card;
         height: 100%;
-        word-wrap: break-word;
+        text-overflow:ellipsis;
+        white-space: nowrap;
       }
     }
 

@@ -27,9 +27,10 @@ export default class FilterUtilities
 
         if(this.filters.length > 0)
         {
+            console.log("raw filters", this.filters)
             projects = this.FilterByTopic(projects);
             projects = this.FilterByOwner(projects);
-            console.log("activeProjects", projects)
+            console.log("active Projects", projects)
             return projects;
         }
         else {
@@ -38,56 +39,50 @@ export default class FilterUtilities
     }
     static validateFilterCategory(category)
     {
-        let filter = false;
-        for(let i = 0; i < this.filters.length; i++)
-        {
-            if(this.filters[i].category === category)
-            {
-                filter = true;
-                break;
-            }
-        }
-
-        return filter;
+        const validFilters = _.where(this.filters, {category: category}).map(x => x.name);
+        console.log(`valid filters for ${category}`, validFilters)
+        return validFilters;
     }
     static FilterByTopic(projects)
     {
-        let vm = this;
+        const validFilters = this.validateFilterCategory("Topic");
 
-        if(!this.validateFilterCategory("Topic"))
+        if(validFilters.length === 0)
         {
             return projects;
         }
 
-        return projects.filter(x =>
+        return projects.filter(project =>
         {
-            for(let i = 0; i < vm.filters.length; i++)
+            for(let i = 0; i < validFilters.length; i++)
             {
-                if(vm.filters[i].category === "Topic")
+                if(_.contains(project.topics, validFilters[i]))
                 {
-                    return _.contains(x.topics, vm.filters[i].name)
+                    return true;
                 }
             }
-        })
+            return false;
+        });
     }
     static FilterByOwner(projects)
     {
-        let vm = this;
-
-        if(!this.validateFilterCategory("Owner"))
+        const validFilters = this.validateFilterCategory("Owner");
+        if(validFilters.length === 0)
         {
             return projects;
         }
 
-        return projects.filter(x =>
+        return projects.filter(project =>
         {
-            for(let i = 0; i < vm.filters.length; i++)
+            for(let i = 0; i < validFilters.length; i++)
             {
-                if(vm.filters[i].category === "Owner")
+                if(project.owner.login === validFilters[i])
                 {
-                    return x.owner.login === vm.filters[i].name;
+                    return true;
                 }
             }
+
+            return false;
         })
     }
 

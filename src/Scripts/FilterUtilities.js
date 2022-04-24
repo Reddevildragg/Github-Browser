@@ -1,28 +1,30 @@
 import {_} from "vue-underscore";
-import store from "../store";
 import { useProjectStore } from "@/store/projects";
 
-import {PROJECTS, GET_PROJECTS} from "@/store/Modules/Project/types";
-import {FILTERS,GET_FILTERS} from "@/store/Modules/Filters/types";
 import Config from "@/Config";
+import {useFiltersStore} from "@/store/filters";
 
 export default class FilterUtilities
 {
     static filters;
-    static store = useProjectStore();
 
     static #GetProjects()
     {
-        //console.log("store");
-        return [];// store[`${GET_PROJECTS}`];
+        const projectStore = useProjectStore();
+        return projectStore.projects;
+    }
+
+    static #GetFilters()
+    {
+        const filtersStore = useFiltersStore();
+        return filtersStore.filters;
     }
 
     static GetActiveProjects()
     {
         let projects = this.#GetProjects();
-        this.filters = store.getters[`${FILTERS}/${GET_FILTERS}`];
+        this.filters = this.#GetFilters();
 
-        console.log("Filters", this.filters);
         if(this.filters.length > 0)
         {
             projects = this.FilterByTopic(projects);

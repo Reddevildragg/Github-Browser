@@ -7,22 +7,16 @@
 <script>
 import TopicsDropdown from "@/Components/TopicsDropdown";
 import ProjectLayout from "@/Components/ProjectLayout";
-import { mapActions } from 'vuex'
-import {PROJECTS,FETCH_PROJECTS} from "@/store/Modules/Project/types";
+import {useProjectStore} from "@/store/projects";
 
 export default {
   name: 'HomePage',
   components: {ProjectLayout, TopicsDropdown},
-  methods:
-      {
-        ...mapActions(PROJECTS,{
-          FetchProjects: FETCH_PROJECTS
-        })
-  },
-  mounted()
+  setup()
   {
-    this.FetchProjects();
-  }
+    useProjectStore().FetchProjects()
+    return {}
+  },
 }
 </script>
 

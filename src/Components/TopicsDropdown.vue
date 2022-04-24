@@ -20,10 +20,9 @@
 
 <script>
 import VueMultiselect from 'vue-multiselect'
-import {FILTERS, SET_FILTERS} from "@/store/Modules/Filters/types";
-
-import { mapMutations} from "vuex";
+import { defineComponent, computed } from 'vue'
 import FilterUtilities from "@/Scripts/FilterUtilities";
+import {useFiltersStore} from "@/store/filters";
 
 export default {
   name: "TopicsDropdown",
@@ -32,6 +31,10 @@ export default {
     return {
       selected: [],
     }},
+  setup() {
+    const filterStore = useFiltersStore()
+    return { filterStore }
+  },
   computed:
       {
         GetMenuItems()
@@ -43,7 +46,7 @@ export default {
       {
         updateValueAction()
         {
-          //this.SetFilters(this.selected)
+          this.filterStore.filters = this.selected;
         }
       }
 }

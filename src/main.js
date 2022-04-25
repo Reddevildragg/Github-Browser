@@ -8,5 +8,5 @@ const app = createApp(App);
 
 app.use(pinia)
 app.use(router);
-
+app.config.devTools = true;
 app.mount("#app");

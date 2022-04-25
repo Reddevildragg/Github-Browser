@@ -2,10 +2,12 @@
   "name": "githubviewer",
   "version": "0.1.0",
   "private": true,
+  "module": "commonjs",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "deploy": "node gh-pages-deploy.mjs"
   },
   "dependencies": {
     "axios": "^0.26.1",
@@ -24,6 +26,7 @@
     "@vue/cli-service": "~5.0.0",
     "eslint": "^7.32.0",
     "eslint-plugin-vue": "^8.0.3",
+    "execa": "^6.1.0",
     "node-sass": "^7.0.1",
     "sass": "^1.50.1",
     "sass-loader": "^12.6.0",

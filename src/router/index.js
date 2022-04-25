@@ -21,7 +21,7 @@ const routes = [
 ];
 
 const router = new createRouter({
-    history: createWebHistory("/Github-Browser"),
+    history: createWebHistory(process.env.BASE_URL),
     routes,
 });
 

@@ -1,6 +1,7 @@
-const execa = require('execa')
-const emoji = require('node-emoji')
-const chalk = require('chalk')
+import {execa} from "execa";
+import emoji from "node-emoji/lib/emojifile";
+import chalk from "chalk";
+
 
 const firstLog = `${emoji.get('fast_forward')} ${chalk.yellow('Building...')}`
 const secondLog = `${emoji.get('fast_forward')} ${chalk.yellow('Pushing...')}`

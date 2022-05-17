@@ -2,29 +2,27 @@
 
   <div class="l-navbar" :class="{show: this.openMenu }">
     <nav class="nav">
-      <div>
-        <a href="#" class="nav_logo"> <i class='bx bx-layer nav_logo-icon'></i> <span class="nav_logo-name">BBBootstrap</span> </a>
+      <div class="nav_logo"> <i class='bi bi-speedometer nav_logo-icon'></i> <span class="nav_logo-name">BBBootstrap</span> </div>
 
-        <div class="nav_list">
-          <a href="#" class="nav_link active"> <i class='bx bx-grid-alt nav_icon'></i> <span class="nav_name">Dashboard</span> </a>
-          <a href="#" class="nav_link"> <i class='bx bx-user nav_icon'></i> <span class="nav_name">Users</span> </a>
-          <a href="#" class="nav_link"> <i class='bx bx-message-square-detail nav_icon'></i> <span class="nav_name">Messages</span> </a>
-          <a href="#" class="nav_link"> <i class='bx bx-bookmark nav_icon'></i> <span class="nav_name">Bookmark</span> </a>
-          <a href="#" class="nav_link"> <i class='bx bx-folder nav_icon'></i> <span class="nav_name">Files</span> </a>
-          <a href="#" class="nav_link"> <i class='bx bx-bar-chart-alt-2 nav_icon'></i> <span class="nav_name">Stats</span> </a>
-        </div>
-
-        <div class="header_toggle" @click="this.ToggleNavBar">XXX</div>
-
+      <div class="nav_list">
+        <a href="#" class="nav_link active"> <i class='bi bi-speedometer nav_icon'></i> <span >Dashboard</span> </a>
+        <a href="#" class="nav_link"> <i class='bi bi-speedometer nav_icon'></i> <span>Users</span> </a>
+        <a href="#" class="nav_link"> <i class='bi bi-speedometer nav_icon'></i> <span>Messages</span> </a>
+        <a href="#" class="nav_link"> <i class='bi bi-speedometer nav_icon'></i> <span>Bookmark</span> </a>
+        <a href="#" class="nav_link"> <i class='bi bi-speedometer nav_icon'></i> <span>Files</span> </a>
+        <a href="#" class="nav_link"> <i class='bi bi-speedometer nav_icon'></i> <span>Stats</span> </a>
       </div>
 
-      <a href="#" class="nav_link"> <i class='bx bx-log-out nav_icon'></i> <span class="nav_name">SignOut</span> </a>
+      <div class="nav_link bi bi-arrow-right-circle expand_toggle" @click="this.ToggleNavBar"></div>
 
     </nav>
   </div>
 
-  <topics-dropdown></topics-dropdown>
-  <ProjectLayout></ProjectLayout>
+  <section class="contentBox">
+    <topics-dropdown></topics-dropdown>
+    <ProjectLayout></ProjectLayout>
+  </section>
+
 </template>
 
 
@@ -60,7 +58,6 @@ a
 }
 
 $z-fixed: 100;
-$header-height: 3rem;
 $nav-width: 68px;
 $first-color: #4723D9;
 $first-color-light: #AFA5D9;
@@ -68,7 +65,11 @@ $white-color: #F7F6FB;
 $body-font: 'Nunito', sans-serif;
 $normal-font-size: 1rem;
 
-.header_toggle
+.contentBox
+{
+  padding-left: $nav-width;
+}
+.expand_toggle
 {
   font-size: 1.5rem;
   cursor: pointer;
@@ -78,25 +79,30 @@ $normal-font-size: 1rem;
 .l-navbar {
   position: fixed;
   top: 0;
-  left: 0;//-30%;
+  left: 0;
   width: $nav-width;
   height: 100vh;
   background-color: $first-color;
   padding: .5rem 1rem 0 0;
-  transition: 5s;
+  transition: width .5s;
   z-index: $z-fixed
 }
 
 .show {
-  left: 150px
+  width: calc(#{$nav-width} + 156px)
 }
 
 .nav {
   height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: flex-start;
   overflow: hidden
+}
+
+.nav_list
+{
+  flex: auto;
 }
 
 .nav_logo,
@@ -119,16 +125,28 @@ $normal-font-size: 1rem;
   transition: .3s
 }
 
+.nav_icon {
+  font-size: 1.25rem
+}
+
+.active {
+  color: $white-color
+}
+
+.active::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  width: 2px;
+  height: 32px;
+  background-color: $white-color
+}
+
 @media screen and (min-width: 768px)
 {
   .l-navbar {
     left: 0;
     padding: 1rem 1rem 0 0;
-    transition: 5s;
-  }
-
-  .show {
-    width: calc(#{$nav-width} + 156px)
   }
 }
 

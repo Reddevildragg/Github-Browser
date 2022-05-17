@@ -13,7 +13,10 @@
         <a href="#" class="nav_link"> <i class='bi bi-speedometer nav_icon'></i> <span>Stats</span> </a>
       </div>
 
-      <div class="nav_link bi bi-arrow-right-circle expand_toggle" @click="this.ToggleNavBar"></div>
+      <div class="toggle" :class="{show: this.openMenu }">
+        <div class="nav_link bi bi-arrow-right-circle expand_toggle open" @click="this.ToggleNavBar"></div>
+        <div class="nav_link bi bi-arrow-left-circle expand_toggle close" @click="this.ToggleNavBar"></div>
+      </div>
 
     </nav>
   </div>
@@ -65,10 +68,29 @@ $white-color: #F7F6FB;
 $body-font: 'Nunito', sans-serif;
 $normal-font-size: 1rem;
 
+.toggle
+{
+  &.show
+  {
+    .open
+    {
+      display: none;
+    }
+  }
+
+  &:not(.show)
+  {
+    .close {
+      display: none;
+    }
+  }
+}
+
 .contentBox
 {
   padding-left: $nav-width;
 }
+
 .expand_toggle
 {
   font-size: 1.5rem;
@@ -118,36 +140,21 @@ $normal-font-size: 1rem;
   margin-bottom: 2rem
 }
 
-.nav_link {
+.nav_link
+{
   position: relative;
   color: $first-color-light;
   margin-bottom: 1.5rem;
-  transition: .3s
+  transition: .3s;
+
+  &.active
+  {
+    color: #42b983;
+  }
 }
 
 .nav_icon {
   font-size: 1.25rem
-}
-
-.active {
-  color: $white-color
-}
-
-.active::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  width: 2px;
-  height: 32px;
-  background-color: $white-color
-}
-
-@media screen and (min-width: 768px)
-{
-  .l-navbar {
-    left: 0;
-    padding: 1rem 1rem 0 0;
-  }
 }
 
 </style>
